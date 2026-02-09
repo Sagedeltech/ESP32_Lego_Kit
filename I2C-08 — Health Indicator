@@ -1,0 +1,32 @@
+// I2C-08 Health Indicator
+// Indicates health status based on BPM
+
+#include <Wire.h>
+#include <MAX30105.h>
+
+MAX30105 sensor;
+unsigned long lastBeat = 0;
+
+void setup() {
+  Serial.begin(9600);
+  Wire.begin();
+  sensor.begin(Wire, I2C_SPEED_STANDARD);
+  sensor.setup();
+}
+
+void loop() {
+  long ir = sensor.getIR();
+
+  if (ir > 50000) {
+    unsigned long now = millis();
+    int bpm = 60000 / (now - lastBeat);
+    lastBeat = now;
+
+    if (bpm >= 60 && bpm <= 100) {
+      Serial.println("Health: NORMAL");
+    } else {
+      Serial.println("Health: ALERT");
+    }
+    delay(500);
+  }
+}
