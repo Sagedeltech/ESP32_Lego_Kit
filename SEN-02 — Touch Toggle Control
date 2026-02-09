@@ -1,0 +1,19 @@
+// SEN-02 Touch Toggle Control
+// Toggles LED using touch input
+
+#define TOUCH_PIN 4
+#define LED 2
+
+bool state = false;
+
+void setup() {
+  pinMode(LED, OUTPUT);
+}
+
+void loop() {
+  if (touchRead(TOUCH_PIN) < 40) {
+    state = !state;
+    digitalWrite(LED, state);
+    delay(500);
+  }
+}
