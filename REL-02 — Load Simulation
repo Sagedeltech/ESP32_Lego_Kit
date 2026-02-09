@@ -1,0 +1,20 @@
+// REL-02 Load Simulation
+// Simulates appliance switching
+
+#define RELAY_PIN 25
+#define LED 2
+
+void setup() {
+  pinMode(RELAY_PIN, OUTPUT);
+  pinMode(LED, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(RELAY_PIN, HIGH);
+  digitalWrite(LED, HIGH); // Load ON
+  delay(3000);
+
+  digitalWrite(RELAY_PIN, LOW);
+  digitalWrite(LED, LOW);  // Load OFF
+  delay(3000);
+}
