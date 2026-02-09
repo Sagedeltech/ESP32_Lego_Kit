@@ -1,0 +1,16 @@
+// MOT-01 Motor ON/OFF
+// Turns motor ON and OFF using relay or motor driver
+
+#define MOTOR_PIN 26
+
+void setup() {
+  pinMode(MOTOR_PIN, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(MOTOR_PIN, HIGH); // Motor ON
+  delay(2000);
+
+  digitalWrite(MOTOR_PIN, LOW);  // Motor OFF
+  delay(2000);
+}
