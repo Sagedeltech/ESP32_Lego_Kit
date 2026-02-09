@@ -1,0 +1,19 @@
+// SEN-21 Movement Alert
+// Alerts sudden movement (tilt based)
+
+#define TILT_PIN 14
+#define BUZZER 18
+
+void setup() {
+  pinMode(TILT_PIN, INPUT_PULLUP);
+  pinMode(BUZZER, OUTPUT);
+}
+
+void loop() {
+  if (digitalRead(TILT_PIN) == LOW) {
+    digitalWrite(BUZZER, HIGH);
+    delay(200);
+    digitalWrite(BUZZER, LOW);
+  }
+  delay(500);
+}
