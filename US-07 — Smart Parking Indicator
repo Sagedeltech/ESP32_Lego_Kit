@@ -1,0 +1,31 @@
+// US-07 Smart Parking Indicator
+// Indicates parking distance using LED
+
+#define TRIG 5
+#define ECHO 18
+#define LED 2
+
+void setup() {
+  pinMode(TRIG, OUTPUT);
+  pinMode(ECHO, INPUT);
+  pinMode(LED, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(TRIG, LOW);
+  delayMicroseconds(2);
+  digitalWrite(TRIG, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(TRIG, LOW);
+
+  long duration = pulseIn(ECHO, HIGH, 30000);
+  float distance = duration * 0.034 / 2;
+
+  if (distance > 0 && distance < 20) {
+    digitalWrite(LED, HIGH); // Parking close
+  } else {
+    digitalWrite(LED, LOW);
+  }
+
+  delay(400);
+}
