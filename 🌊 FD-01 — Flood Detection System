@@ -1,0 +1,21 @@
+// FD-01 Flood Detection System
+// Detects water presence and alerts
+
+#define WATER_PIN 34
+#define BUZZER 18
+
+void setup() {
+  pinMode(BUZZER, OUTPUT);
+}
+
+void loop() {
+  int water = analogRead(WATER_PIN);
+
+  if (water > 2000) {
+    digitalWrite(BUZZER, HIGH);
+  } else {
+    digitalWrite(BUZZER, LOW);
+  }
+
+  delay(500);
+}
