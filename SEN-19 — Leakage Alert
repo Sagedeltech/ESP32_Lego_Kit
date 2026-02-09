@@ -1,0 +1,21 @@
+// SEN-19 Leakage Alert
+// Alerts water leakage
+
+#define WATER_PIN 33
+#define BUZZER 18
+
+void setup() {
+  pinMode(BUZZER, OUTPUT);
+}
+
+void loop() {
+  int value = analogRead(WATER_PIN);
+
+  if (value > 2000) {
+    digitalWrite(BUZZER, HIGH);
+  } else {
+    digitalWrite(BUZZER, LOW);
+  }
+
+  delay(500);
+}
