@@ -1,0 +1,21 @@
+// FSR-08 Dry/Wet Indicator
+// Indicates dry or wet soil using LED
+
+#define SOIL_PIN 35
+#define LED 2
+
+void setup() {
+  pinMode(LED, OUTPUT);
+}
+
+void loop() {
+  int moisture = analogRead(SOIL_PIN);
+
+  if (moisture < 2000) {
+    digitalWrite(LED, HIGH); // Wet
+  } else {
+    digitalWrite(LED, LOW);  // Dry
+  }
+
+  delay(500);
+}
