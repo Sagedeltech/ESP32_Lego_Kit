@@ -1,0 +1,27 @@
+// OLED-03 Multi-Line OLED Data
+// Shows multiple lines of text
+
+#include <Wire.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+
+#define W 128
+#define H 64
+
+Adafruit_SSD1306 display(W, H, &Wire, -1);
+
+void setup() {
+  display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
+  display.clearDisplay();
+  display.setTextSize(1);
+  display.setTextColor(WHITE);
+
+  display.setCursor(0, 0);
+  display.println("ESP32 OLED");
+  display.println("Line 1 Data");
+  display.println("Line 2 Data");
+  display.display();
+}
+
+void loop() {
+}
