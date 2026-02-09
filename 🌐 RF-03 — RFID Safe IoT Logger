@@ -1,0 +1,25 @@
+// RF-03 RFID Safe IoT Logger
+
+#include "BluetoothSerial.h"
+#include <SPI.h>
+#include <MFRC522.h>
+
+BluetoothSerial SerialBT;
+MFRC522 rfid(5, 22);
+
+void setup() {
+  SPI.begin();
+  rfid.PCD_Init();
+  SerialBT.begin("ESP32_RFID_LOG");
+}
+
+void loop() {
+  if (rfid.PICC_IsNewCardPresent() && rfid.PICC_ReadCardSerial()) {
+    SerialBT.print("UID:");
+    for (byte i = 0; i < rfid.uid.size; i++) {
+      SerialBT.print(rfid.uid.uidByte[i], HEX);
+    }
+    SerialBT.println();
+    delay(2000);
+  }
+}
