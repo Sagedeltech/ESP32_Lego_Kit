@@ -1,0 +1,21 @@
+// AQ-02 Air Quality Indicator
+// Indicates air quality using LED
+
+#define AQ_PIN 34
+#define LED 2
+
+void setup() {
+  pinMode(LED, OUTPUT);
+}
+
+void loop() {
+  int value = analogRead(AQ_PIN);
+
+  if (value > 2000) {
+    digitalWrite(LED, HIGH); // Poor air quality
+  } else {
+    digitalWrite(LED, LOW);  // Good air quality
+  }
+
+  delay(1000);
+}
