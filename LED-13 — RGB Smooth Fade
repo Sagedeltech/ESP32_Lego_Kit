@@ -1,0 +1,25 @@
+// LED-13 RGB Smooth Fade
+// Smooth transition between colors using PWM
+
+#define R 25
+#define G 26
+#define B 27
+
+void setup() {
+  ledcAttachPin(R, 0);
+  ledcAttachPin(G, 1);
+  ledcAttachPin(B, 2);
+
+  ledcSetup(0, 5000, 8);
+  ledcSetup(1, 5000, 8);
+  ledcSetup(2, 5000, 8);
+}
+
+void loop() {
+  for (int i = 0; i <= 255; i++) {
+    ledcWrite(0, i);
+    ledcWrite(1, 255 - i);
+    ledcWrite(2, i / 2);
+    delay(10);
+  }
+}
