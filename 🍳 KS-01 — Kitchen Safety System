@@ -1,0 +1,23 @@
+// KS-01 Kitchen Safety System
+// Flame + Gas + Buzzer alert
+
+#define FLAME_PIN 32
+#define GAS_PIN   34
+#define BUZZER    18
+
+void setup() {
+  pinMode(BUZZER, OUTPUT);
+}
+
+void loop() {
+  int flame = analogRead(FLAME_PIN);
+  int gas   = analogRead(GAS_PIN);
+
+  if (flame < 2000 || gas > 2500) {
+    digitalWrite(BUZZER, HIGH);
+  } else {
+    digitalWrite(BUZZER, LOW);
+  }
+
+  delay(500);
+}
