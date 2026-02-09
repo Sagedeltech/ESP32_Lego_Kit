@@ -1,0 +1,26 @@
+// LED-14 RGB Status Indicator
+// Uses color to show system state
+
+#define R 25
+#define G 26
+#define B 27
+
+void setup() {
+  pinMode(R, OUTPUT);
+  pinMode(G, OUTPUT);
+  pinMode(B, OUTPUT);
+}
+
+void loop() {
+  // OK - Green
+  digitalWrite(R, LOW); digitalWrite(G, HIGH); digitalWrite(B, LOW);
+  delay(1000);
+
+  // Warning - Yellow
+  digitalWrite(R, HIGH); digitalWrite(G, HIGH); digitalWrite(B, LOW);
+  delay(1000);
+
+  // Error - Red
+  digitalWrite(R, HIGH); digitalWrite(G, LOW); digitalWrite(B, LOW);
+  delay(1000);
+}
