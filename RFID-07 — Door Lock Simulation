@@ -1,0 +1,25 @@
+// RFID-07 Door Lock Simulation
+// Simulates door lock using relay
+
+#include <SPI.h>
+#include <MFRC522.h>
+
+#define SS_PIN 5
+#define RST_PIN 22
+#define RELAY 25
+
+MFRC522 rfid(SS_PIN, RST_PIN);
+
+void setup() {
+  pinMode(RELAY, OUTPUT);
+  SPI.begin();
+  rfid.PCD_Init();
+}
+
+void loop() {
+  if (rfid.PICC_IsNewCardPresent()) {
+    digitalWrite(RELAY, HIGH); // Unlock
+    delay(2000);
+    digitalWrite(RELAY, LOW);  // Lock
+  }
+}
