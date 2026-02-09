@@ -1,0 +1,17 @@
+// BUZ-03 Repeating Beep Pattern
+
+#define BUZZER 18
+
+void setup() {
+  pinMode(BUZZER, OUTPUT);
+}
+
+void loop() {
+  for (int i = 0; i < 3; i++) {
+    digitalWrite(BUZZER, HIGH);
+    delay(150);
+    digitalWrite(BUZZER, LOW);
+    delay(150);
+  }
+  delay(1000);
+}
