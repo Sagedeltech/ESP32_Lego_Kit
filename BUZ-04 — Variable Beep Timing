@@ -1,0 +1,16 @@
+// BUZ-04 Variable Beep Timing
+
+#define BUZZER 18
+
+void setup() {
+  pinMode(BUZZER, OUTPUT);
+}
+
+void loop() {
+  for (int d = 100; d <= 500; d += 100) {
+    digitalWrite(BUZZER, HIGH);
+    delay(d);
+    digitalWrite(BUZZER, LOW);
+    delay(d);
+  }
+}
