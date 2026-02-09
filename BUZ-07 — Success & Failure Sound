@@ -1,0 +1,26 @@
+// BUZ-07 Success / Failure Sound
+// Different sounds for outcomes
+
+#define BUZZER 18
+
+void setup() {
+  pinMode(BUZZER, OUTPUT);
+
+  // Success sound (long beep)
+  digitalWrite(BUZZER, HIGH);
+  delay(400);
+  digitalWrite(BUZZER, LOW);
+
+  delay(1000);
+
+  // Failure sound (short beeps)
+  for (int i = 0; i < 3; i++) {
+    digitalWrite(BUZZER, HIGH);
+    delay(100);
+    digitalWrite(BUZZER, LOW);
+    delay(100);
+  }
+}
+
+void loop() {
+}
