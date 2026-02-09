@@ -1,0 +1,16 @@
+// BL-05 Notification Test
+// Sends text notification to app via Bluetooth
+
+#include "BluetoothSerial.h"
+
+BluetoothSerial SerialBT;
+
+void setup() {
+  Serial.begin(9600);
+  SerialBT.begin("ESP32_Notify");
+}
+
+void loop() {
+  SerialBT.println("ESP32 Notification Test");
+  delay(5000);
+}
