@@ -1,0 +1,19 @@
+// SEN-17 Door Status Indicator
+// Displays door state using LED
+
+#define REED_PIN 27
+#define LED 2
+
+void setup() {
+  pinMode(REED_PIN, INPUT_PULLUP);
+  pinMode(LED, OUTPUT);
+}
+
+void loop() {
+  if (digitalRead(REED_PIN) == LOW) {
+    digitalWrite(LED, HIGH); // Door closed
+  } else {
+    digitalWrite(LED, LOW);  // Door open
+  }
+  delay(300);
+}
