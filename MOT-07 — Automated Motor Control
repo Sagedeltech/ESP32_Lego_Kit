@@ -1,0 +1,16 @@
+// MOT-07 Automated Motor Control
+// Controls motor automatically based on time
+
+#define MOTOR_PIN 26
+
+void setup() {
+  pinMode(MOTOR_PIN, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(MOTOR_PIN, HIGH); // Motor ON
+  delay(3000);
+
+  digitalWrite(MOTOR_PIN, LOW);  // Motor OFF
+  delay(3000);
+}
