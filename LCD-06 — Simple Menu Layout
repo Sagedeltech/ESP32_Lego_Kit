@@ -1,0 +1,28 @@
+// LCD-06 Simple Menu Layout
+// Simulates a text-based menu
+
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+
+void setup() {
+  lcd.init();
+  lcd.backlight();
+}
+
+void loop() {
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("> Menu 1");
+  lcd.setCursor(0, 1);
+  lcd.print("  Menu 2");
+  delay(2000);
+
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("  Menu 1");
+  lcd.setCursor(0, 1);
+  lcd.print("> Menu 2");
+  delay(2000);
+}
