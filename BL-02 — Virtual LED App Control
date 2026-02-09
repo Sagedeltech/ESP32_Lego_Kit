@@ -1,0 +1,28 @@
+// BL-02 Virtual LED App Control
+// Controls LED via Bluetooth (Serial commands)
+
+#include "BluetoothSerial.h"
+
+BluetoothSerial SerialBT;
+#define LED 2
+
+void setup() {
+  pinMode(LED, OUTPUT);
+  Serial.begin(9600);
+  SerialBT.begin("ESP32_LED_Control");
+}
+
+void loop() {
+  if (SerialBT.available()) {
+    char cmd = SerialBT.read();
+
+    if (cmd == '1') {
+      digitalWrite(LED, HIGH);
+      SerialBT.println("LED ON");
+    } 
+    else if (cmd == '0') {
+      digitalWrite(LED, LOW);
+      SerialBT.println("LED OFF");
+    }
+  }
+}
