@@ -1,0 +1,19 @@
+// SEN-20 Tilt Detection
+// Detects tilt using tilt switch
+
+#define TILT_PIN 14
+#define LED 2
+
+void setup() {
+  pinMode(TILT_PIN, INPUT_PULLUP);
+  pinMode(LED, OUTPUT);
+}
+
+void loop() {
+  if (digitalRead(TILT_PIN) == LOW) {
+    digitalWrite(LED, HIGH); // Tilted
+  } else {
+    digitalWrite(LED, LOW);
+  }
+  delay(300);
+}
