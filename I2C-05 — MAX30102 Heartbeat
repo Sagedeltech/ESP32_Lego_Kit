@@ -1,0 +1,25 @@
+// I2C-05 MAX30102 Heartbeat
+// Detects heartbeat signal (basic)
+
+#include <Wire.h>
+#include <MAX30105.h>
+
+MAX30105 particleSensor;
+
+void setup() {
+  Serial.begin(9600);
+  Wire.begin();
+
+  if (!particleSensor.begin(Wire, I2C_SPEED_STANDARD)) {
+    Serial.println("MAX30102 not found");
+    while (1);
+  }
+
+  particleSensor.setup();
+}
+
+void loop() {
+  long irValue = particleSensor.getIR();
+  Serial.println(irValue);
+  delay(20);
+}
