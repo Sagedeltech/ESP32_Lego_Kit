@@ -1,0 +1,19 @@
+// MOT-05 Speed Levels
+// Uses predefined motor speed levels
+
+#define MOTOR_PIN 26
+#define PWM_CH 0
+
+int speeds[] = {80, 150, 255};
+
+void setup() {
+  ledcSetup(PWM_CH, 5000, 8);
+  ledcAttachPin(MOTOR_PIN, PWM_CH);
+}
+
+void loop() {
+  for (int i = 0; i < 3; i++) {
+    ledcWrite(PWM_CH, speeds[i]);
+    delay(2000);
+  }
+}
