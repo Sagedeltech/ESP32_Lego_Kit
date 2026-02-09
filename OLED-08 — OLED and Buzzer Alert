@@ -1,0 +1,32 @@
+// OLED-08 OLED + Buzzer Alert
+// Audio-visual alert
+
+#include <Wire.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+
+#define BUZZER 18
+#define W 128
+#define H 64
+
+Adafruit_SSD1306 display(W, H, &Wire, -1);
+
+void setup() {
+  pinMode(BUZZER, OUTPUT);
+  display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
+}
+
+void loop() {
+  display.clearDisplay();
+  display.setTextSize(2);
+  display.setTextColor(WHITE);
+  display.setCursor(10, 20);
+  display.print("ALERT");
+  display.display();
+
+  digitalWrite(BUZZER, HIGH);
+  delay(300);
+  digitalWrite(BUZZER, LOW);
+
+  delay(2000);
+}
