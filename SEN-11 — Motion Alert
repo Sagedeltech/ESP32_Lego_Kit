@@ -1,0 +1,20 @@
+// SEN-11 Motion Alert
+// Alerts on motion detection
+
+#define PIR_PIN 27
+#define BUZZER 18
+
+void setup() {
+  pinMode(PIR_PIN, INPUT);
+  pinMode(BUZZER, OUTPUT);
+}
+
+void loop() {
+  if (digitalRead(PIR_PIN)) {
+    digitalWrite(BUZZER, HIGH);
+    delay(300);
+    digitalWrite(BUZZER, LOW);
+  }
+
+  delay(500);
+}
