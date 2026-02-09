@@ -1,0 +1,14 @@
+// FSR-07 Soil Moisture Reading
+// Reads soil moisture level
+
+#define SOIL_PIN 35
+
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  int moisture = analogRead(SOIL_PIN);
+  Serial.println(moisture);
+  delay(500);
+}
