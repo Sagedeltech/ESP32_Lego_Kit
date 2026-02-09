@@ -1,0 +1,18 @@
+// BL-16 Health IoT
+// Sends ECG/health data via Bluetooth
+
+#include "BluetoothSerial.h"
+
+BluetoothSerial SerialBT;
+#define ECG_PIN 36
+
+void setup() {
+  SerialBT.begin("ESP32_HEALTH_BT");
+}
+
+void loop() {
+  int ecg = analogRead(ECG_PIN);
+  SerialBT.print("ECG:");
+  SerialBT.println(ecg);
+  delay(500);
+}
