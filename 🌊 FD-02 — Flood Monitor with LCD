@@ -1,0 +1,24 @@
+// FD-02 Flood Monitor with LCD
+
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+
+#define WATER_PIN 34
+
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+
+void setup() {
+  lcd.init();
+  lcd.backlight();
+}
+
+void loop() {
+  int level = analogRead(WATER_PIN);
+
+  lcd.clear();
+  lcd.print("Water Level:");
+  lcd.setCursor(0,1);
+  lcd.print(level);
+
+  delay(1000);
+}
