@@ -1,0 +1,33 @@
+// SP-02 Smart Parking with LCD
+
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+
+#define TRIG 5
+#define ECHO 18
+
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+
+void setup() {
+  pinMode(TRIG, OUTPUT);
+  pinMode(ECHO, INPUT);
+  lcd.init();
+  lcd.backlight();
+}
+
+void loop() {
+  digitalWrite(TRIG, LOW); delayMicroseconds(2);
+  digitalWrite(TRIG, HIGH); delayMicroseconds(10);
+  digitalWrite(TRIG, LOW);
+
+  long d = pulseIn(ECHO, HIGH);
+  float dist = d * 0.034 / 2;
+
+  lcd.clear();
+  lcd.print("Distance:");
+  lcd.setCursor(0,1);
+  lcd.print(dist);
+  lcd.print(" cm");
+
+  delay(1000);
+}
