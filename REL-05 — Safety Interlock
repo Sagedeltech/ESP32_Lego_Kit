@@ -1,0 +1,21 @@
+// REL-05 Safety Interlock
+// Prevents unsafe switching using condition
+
+#define RELAY_PIN 25
+#define SENSOR_PIN 34
+
+void setup() {
+  pinMode(RELAY_PIN, OUTPUT);
+}
+
+void loop() {
+  int sensorValue = analogRead(SENSOR_PIN);
+
+  if (sensorValue > 2000) {
+    digitalWrite(RELAY_PIN, HIGH);  // Safe to switch
+  } else {
+    digitalWrite(RELAY_PIN, LOW);   // Unsafe condition
+  }
+
+  delay(500);
+}
