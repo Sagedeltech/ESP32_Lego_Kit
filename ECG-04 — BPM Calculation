@@ -1,0 +1,28 @@
+// ECG-04 BPM Calculation
+// Calculates BPM from ECG peaks
+
+#define ECG_PIN 36
+#define THRESHOLD 2000
+
+unsigned long lastBeat = 0;
+
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  int ecg = analogRead(ECG_PIN);
+
+  if (ecg > THRESHOLD) {
+    unsigned long now = millis();
+    if (now - lastBeat > 300) { // debounce
+      int bpm = 60000 / (now - lastBeat);
+      lastBeat = now;
+
+      Serial.print("BPM: ");
+      Serial.println(bpm);
+    }
+  }
+
+  delay(5);
+}
