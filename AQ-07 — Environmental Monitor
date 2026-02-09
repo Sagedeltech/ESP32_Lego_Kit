@@ -1,0 +1,17 @@
+// AQ-07 Environmental Monitor
+// Monitors air quality continuously
+
+#define AQ_PIN 34
+
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  int value = analogRead(AQ_PIN);
+
+  Serial.print("AQ Value: ");
+  Serial.println(value);
+
+  delay(1000);
+}
