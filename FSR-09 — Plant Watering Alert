@@ -1,0 +1,21 @@
+// FSR-09 Plant Watering Alert
+// Alerts when watering needed
+
+#define SOIL_PIN 35
+#define BUZZER 18
+
+void setup() {
+  pinMode(BUZZER, OUTPUT);
+}
+
+void loop() {
+  int moisture = analogRead(SOIL_PIN);
+
+  if (moisture > 2500) {
+    digitalWrite(BUZZER, HIGH);
+  } else {
+    digitalWrite(BUZZER, LOW);
+  }
+
+  delay(500);
+}
