@@ -1,0 +1,24 @@
+// BL-04 Slider PWM Remote
+// Controls LED brightness via Bluetooth slider (0–255)
+
+#include "BluetoothSerial.h"
+
+BluetoothSerial SerialBT;
+#define LED_PIN 2
+#define PWM_CH 0
+
+void setup() {
+  Serial.begin(9600);
+  SerialBT.begin("ESP32_PWM_BT");
+
+  ledcSetup(PWM_CH, 5000, 8);
+  ledcAttachPin(LED_PIN, PWM_CH);
+}
+
+void loop() {
+  if (SerialBT.available()) {
+    int value = SerialBT.parseInt(); // Slider value
+    value = constrain(value, 0, 255);
+    ledcWrite(PWM_CH, value);
+  }
+}
