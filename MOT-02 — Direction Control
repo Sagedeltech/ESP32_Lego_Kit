@@ -1,0 +1,22 @@
+// MOT-02 Direction Control
+// Controls motor rotation direction using H-bridge
+
+#define IN1 26
+#define IN2 27
+
+void setup() {
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
+}
+
+void loop() {
+  // Forward
+  digitalWrite(IN1, HIGH);
+  digitalWrite(IN2, LOW);
+  delay(2000);
+
+  // Reverse
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, HIGH);
+  delay(2000);
+}
