@@ -1,0 +1,25 @@
+// SEN-15 BPM Calculation
+// Simple BPM estimation logic
+
+#define PULSE_PIN 36
+
+unsigned long lastBeat = 0;
+int bpm = 0;
+
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  int signal = analogRead(PULSE_PIN);
+
+  if (signal > 2000) { // basic threshold
+    unsigned long now = millis();
+    bpm = 60000 / (now - lastBeat);
+    lastBeat = now;
+
+    Serial.print("BPM: ");
+    Serial.println(bpm);
+    delay(300);
+  }
+}
