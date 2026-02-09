@@ -1,0 +1,26 @@
+// ECG-03 Heartbeat Detection
+// Simple heartbeat detection using threshold
+
+#define ECG_PIN 36
+
+int threshold = 2000;
+bool beatDetected = false;
+
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  int ecg = analogRead(ECG_PIN);
+
+  if (ecg > threshold && !beatDetected) {
+    beatDetected = true;
+    Serial.println("Heartbeat Detected");
+  }
+
+  if (ecg < threshold) {
+    beatDetected = false;
+  }
+
+  delay(5);
+}
