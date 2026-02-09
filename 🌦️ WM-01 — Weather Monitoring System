@@ -1,0 +1,161 @@
+// WM-01 Weather Monitoring System
+// Multi-sensor environmental monitoring system
+// Sensors: DHT11, BMP180, Rain, Dust (PM2.5)
+// Display: 16x4 I2C LCD
+
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+#include <DHT.h>
+#include <Adafruit_BMP085.h>
+
+// ---- LCD ----
+LiquidCrystal_I2C lcd(0x27, 16, 4);
+
+// ---- DHT11 ----
+#define DHTPIN 6
+#define DHTTYPE DHT11
+DHT dht(DHTPIN, DHTTYPE);
+
+// ---- GP2Y1010AU0F ----
+#define MEASURE_PIN A1
+#define LED_PIN 1
+
+// ---- Rain Sensor ----
+#define RAIN_PIN A0
+
+// ---- BMP180 ----
+Adafruit_BMP085 bmp;
+
+// ---- Variables ----
+unsigned long lastUpdate = 0;
+int screen = 0;
+float pm25Filtered = 0;
+
+// -------------------------------------------------------
+// LCD FADE ANIMATION (left to right character reveal)
+// -------------------------------------------------------
+void fadePrint(int row, String text) {
+  for (int i = 0; i < text.length(); i++) {
+    lcd.setCursor(i, row);
+    lcd.print(text[i]);
+    delay(40);   // fade speed (lower = faster)
+  }
+}
+
+// -------------------------------------------------------
+// PM2.5 READING
+// -------------------------------------------------------
+float readPM25() {
+  const int samples = 60;
+  float dustSum = 0;
+
+  for (int i = 0; i < samples; i++) {
+    digitalWrite(LED_PIN, LOW);
+    delayMicroseconds(280);
+    int voMeasured = analogRead(MEASURE_PIN);
+    delayMicroseconds(40);
+    digitalWrite(LED_PIN, HIGH);
+    delayMicroseconds(9680);
+
+    float voltage = voMeasured * (5.0 / 1024.0);
+    float dustDensity = (voltage - 0.9) / 0.005;
+
+    if (dustDensity < 0) dustDensity = 0;
+    if (dustDensity > 500) dustDensity = 500;
+
+    dustSum += dustDensity;
+  }
+
+  float dustAvg = dustSum / samples;
+  pm25Filtered = (0.7 * pm25Filtered) + (0.3 * dustAvg);
+  return pm25Filtered;
+}
+
+// -------------------------------------------------------
+// AQI CALC
+// -------------------------------------------------------
+int pmToAQI(float pm) {
+  if (pm <= 12.0) return map(pm * 10, 0, 120, 0, 50);
+  else if (pm <= 35.4) return map(pm * 10, 121, 354, 51, 100);
+  else if (pm <= 55.4) return map(pm * 10, 355, 554, 101, 150);
+  else if (pm <= 150.4) return map(pm * 10, 555, 1504, 151, 200);
+  else if (pm <= 250.4) return map(pm * 10, 1505, 2504, 201, 300);
+  else if (pm <= 350.4) return map(pm * 10, 2505, 3504, 301, 400);
+  else if (pm <= 500.4) return map(pm * 10, 3505, 5004, 401, 500);
+  else return 500;
+}
+
+String AQIStatus(int aqi) {
+  if (aqi <= 50) return "Excellent";
+  else if (aqi <= 100) return "Good";
+  else if (aqi <= 150) return "Moderate";
+  else if (aqi <= 200) return "Poor";
+  else if (aqi <= 300) return "V.Poor";
+  else return "Severe";
+}
+
+// -------------------------------------------------------
+// SETUP
+// -------------------------------------------------------
+void setup() {
+  lcd.init();
+  lcd.backlight();
+  dht.begin();
+  bmp.begin();
+
+  pinMode(LED_PIN, OUTPUT);
+  pinMode(MEASURE_PIN, INPUT);
+  pinMode(RAIN_PIN, INPUT);
+
+  lcd.clear();
+  lcd.setCursor(0,1);
+  lcd.print("Starting Sensors");
+  delay(2000);
+  lcd.clear();
+}
+
+// -------------------------------------------------------
+// MAIN LOOP
+// -------------------------------------------------------
+void loop() {
+
+  if (millis() - lastUpdate > 5000) { // 5 sec slide time
+    lastUpdate = millis();
+    lcd.clear();
+
+    // -------------------------------
+    // SCREEN 1 : TEMP / HUM / PM2.5
+    // -------------------------------
+    if (screen == 0) {
+      float h = dht.readHumidity();
+      float tC = dht.readTemperature();
+      float pm25 = readPM25();
+      int aqi = pmToAQI(pm25);
+      String status = AQIStatus(aqi);
+
+      fadePrint(0, "Air Monitor");
+      fadePrint(1, "T:" + String(tC,1) + (char)223 + "C H:" + String(h,0) + "%");
+      fadePrint(2, "PM2.5:" + String(pm25,1) + "ug");
+      fadePrint(3, "AQI:" + String(aqi) + " " + status);
+    }
+
+    // -------------------------------
+    // SCREEN 2 : BMP180 + RAIN SENSOR
+    // -------------------------------
+    else if (screen == 1) {
+      float pressure = bmp.readPressure() / 100.0;
+      float altitude = bmp.readAltitude();
+      int rainVal = analogRead(RAIN_PIN);
+
+      String rainStatus = (rainVal < 600) ? "Raining" : "Dry";
+
+      fadePrint(0, "Env. Readings");
+      fadePrint(1, "Press:" + String(pressure,1));
+      fadePrint(2, "Alt:" + String(altitude,1) + "m");
+      fadePrint(3, "Rain:" + rainStatus);
+    }
+
+    screen++;
+    if (screen > 1) screen = 0;
+  }
+}
