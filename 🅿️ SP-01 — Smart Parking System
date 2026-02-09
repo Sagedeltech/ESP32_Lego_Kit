@@ -1,0 +1,26 @@
+// SP-01 Smart Parking System
+// Ultrasonic-based parking assistance
+
+#define TRIG 5
+#define ECHO 18
+#define LED 2
+
+void setup() {
+  pinMode(TRIG, OUTPUT);
+  pinMode(ECHO, INPUT);
+  pinMode(LED, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(TRIG, LOW);
+  delayMicroseconds(2);
+  digitalWrite(TRIG, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(TRIG, LOW);
+
+  long d = pulseIn(ECHO, HIGH, 30000);
+  float dist = d * 0.034 / 2;
+
+  digitalWrite(LED, (dist > 0 && dist < 15));
+  delay(300);
+}
