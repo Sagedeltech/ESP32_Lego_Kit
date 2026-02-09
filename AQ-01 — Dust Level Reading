@@ -1,0 +1,15 @@
+// AQ-01 Dust Level Reading
+// Reads air quality sensor (analog)
+
+#define AQ_PIN 34
+
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  int value = analogRead(AQ_PIN);
+  Serial.print("Air Quality Value: ");
+  Serial.println(value);
+  delay(1000);
+}
