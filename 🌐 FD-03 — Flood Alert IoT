@@ -1,0 +1,27 @@
+// FD-03 Flood Alert IoT
+
+#define BLYNK_TEMPLATE_ID "TMPLXXXX"
+#define BLYNK_AUTH_TOKEN  "YOUR_TOKEN"
+
+#include <WiFi.h>
+#include <BlynkSimpleEsp32.h>
+
+#define WATER_PIN 34
+
+char ssid[] = "YOUR_WIFI";
+char pass[] = "YOUR_PASS";
+
+void setup() {
+  Blynk.begin(BLYNK_AUTH_TOKEN, ssid, pass);
+}
+
+void loop() {
+  int water = analogRead(WATER_PIN);
+
+  if (water > 2000) {
+    Blynk.logEvent("flood_alert", "Flood Detected");
+  }
+
+  Blynk.run();
+  delay(3000);
+}
