@@ -1,0 +1,21 @@
+// MC-03 Wireless MCU Communication using ESP-NOW
+
+#include <WiFi.h>
+#include <esp_now.h>
+
+typedef struct {
+  int value;
+} data_t;
+
+data_t data;
+
+void setup() {
+  WiFi.mode(WIFI_STA);
+  esp_now_init();
+}
+
+void loop() {
+  data.value = random(0, 100);
+  esp_now_send(NULL, (uint8_t *)&data, sizeof(data));
+  delay(1000);
+}
