@@ -1,0 +1,21 @@
+// FSR-03 Fire Safety Alarm
+// Triggers alarm on fire
+
+#define FLAME_PIN 32
+#define BUZZER 18
+
+void setup() {
+  pinMode(BUZZER, OUTPUT);
+}
+
+void loop() {
+  int flame = analogRead(FLAME_PIN);
+
+  if (flame < 2000) {
+    digitalWrite(BUZZER, HIGH);
+  } else {
+    digitalWrite(BUZZER, LOW);
+  }
+
+  delay(300);
+}
