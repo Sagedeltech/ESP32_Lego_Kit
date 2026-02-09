@@ -1,0 +1,35 @@
+// RF-01 RFID Safe
+// RFID-based secure locker system
+
+#include <SPI.h>
+#include <MFRC522.h>
+
+#define SS_PIN 5
+#define RST_PIN 22
+#define RELAY  25
+
+MFRC522 rfid(SS_PIN, RST_PIN);
+byte allowedUID[4] = {0xDE, 0xAD, 0xBE, 0xEF};
+
+void setup() {
+  pinMode(RELAY, OUTPUT);
+  SPI.begin();
+  rfid.PCD_Init();
+}
+
+void loop() {
+  if (rfid.PICC_IsNewCardPresent() && rfid.PICC_ReadCardSerial()) {
+    bool ok = true;
+    for (byte i = 0; i < 4; i++) {
+      if (rfid.uid.uidByte[i] != allowedUID[i]) ok = false;
+    }
+
+    if (ok) {
+      digitalWrite(RELAY, HIGH);
+      delay(2000);
+      digitalWrite(RELAY, LOW);
+    }
+
+    rfid.PICC_HaltA();
+  }
+}
