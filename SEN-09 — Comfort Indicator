@@ -1,0 +1,23 @@
+// SEN-09 Comfort Indicator
+// Indicates comfort level using LED
+
+#define TEMP_PIN 35
+#define LED 2
+
+void setup() {
+  pinMode(LED, OUTPUT);
+}
+
+void loop() {
+  int raw = analogRead(TEMP_PIN);
+  float voltage = raw * (3.3 / 4095.0);
+  float temp = voltage * 100.0;
+
+  if (temp >= 20 && temp <= 30) {
+    digitalWrite(LED, HIGH); // Comfortable
+  } else {
+    digitalWrite(LED, LOW);  // Uncomfortable
+  }
+
+  delay(1000);
+}
