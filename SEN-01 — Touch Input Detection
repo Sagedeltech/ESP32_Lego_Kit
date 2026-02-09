@@ -1,0 +1,14 @@
+// SEN-01 Touch Input Detection
+// Detects ESP32 touch pin input
+
+#define TOUCH_PIN 4  // Touch-capable GPIO
+
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  int touchValue = touchRead(TOUCH_PIN);
+  Serial.println(touchValue);
+  delay(500);
+}
