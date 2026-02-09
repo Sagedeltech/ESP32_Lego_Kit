@@ -1,0 +1,27 @@
+// LCD-08 LCD + LED Indicator
+// LED reflects LCD message
+
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+
+#define LED 2
+
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+
+void setup() {
+  pinMode(LED, OUTPUT);
+  lcd.init();
+  lcd.backlight();
+}
+
+void loop() {
+  lcd.setCursor(0, 0);
+  lcd.print("Status: ON ");
+  digitalWrite(LED, HIGH);
+  delay(1500);
+
+  lcd.setCursor(0, 0);
+  lcd.print("Status: OFF");
+  digitalWrite(LED, LOW);
+  delay(1500);
+}
