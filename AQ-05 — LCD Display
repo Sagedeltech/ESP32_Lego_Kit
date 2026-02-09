@@ -1,0 +1,26 @@
+// AQ-05 LCD Display
+// Displays air quality on LCD
+
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+
+#define AQ_PIN 34
+
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+
+void setup() {
+  lcd.init();
+  lcd.backlight();
+}
+
+void loop() {
+  int value = analogRead(AQ_PIN);
+
+  lcd.setCursor(0, 0);
+  lcd.print("Air Quality:");
+  lcd.setCursor(0, 1);
+  lcd.print(value);
+  lcd.print("     ");
+
+  delay(1000);
+}
