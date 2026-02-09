@@ -1,0 +1,21 @@
+// FSR-05 Rain Alert System
+// Alerts rainfall
+
+#define RAIN_PIN 34
+#define BUZZER 18
+
+void setup() {
+  pinMode(BUZZER, OUTPUT);
+}
+
+void loop() {
+  int rain = analogRead(RAIN_PIN);
+
+  if (rain < 2000) {
+    digitalWrite(BUZZER, HIGH);
+  } else {
+    digitalWrite(BUZZER, LOW);
+  }
+
+  delay(500);
+}
