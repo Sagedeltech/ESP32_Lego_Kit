@@ -1,0 +1,26 @@
+// RFID-05 LED Status
+// Shows access result using LED
+
+#include <SPI.h>
+#include <MFRC522.h>
+
+#define SS_PIN 5
+#define RST_PIN 22
+#define LED 2
+
+MFRC522 rfid(SS_PIN, RST_PIN);
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(LED, OUTPUT);
+  SPI.begin();
+  rfid.PCD_Init();
+}
+
+void loop() {
+  if (rfid.PICC_IsNewCardPresent()) {
+    digitalWrite(LED, HIGH);
+    delay(500);
+    digitalWrite(LED, LOW);
+  }
+}
