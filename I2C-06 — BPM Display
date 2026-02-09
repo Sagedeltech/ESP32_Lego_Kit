@@ -1,0 +1,29 @@
+// I2C-06 BPM Display
+// Displays BPM using MAX30102
+
+#include <Wire.h>
+#include <MAX30105.h>
+
+MAX30105 sensor;
+unsigned long lastBeat = 0;
+
+void setup() {
+  Serial.begin(9600);
+  Wire.begin();
+  sensor.begin(Wire, I2C_SPEED_STANDARD);
+  sensor.setup();
+}
+
+void loop() {
+  long irValue = sensor.getIR();
+
+  if (irValue > 50000) {
+    unsigned long now = millis();
+    int bpm = 60000 / (now - lastBeat);
+    lastBeat = now;
+
+    Serial.print("BPM: ");
+    Serial.println(bpm);
+    delay(300);
+  }
+}
