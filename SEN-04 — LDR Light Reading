@@ -1,0 +1,14 @@
+// SEN-04 LDR Light Reading
+// Reads ambient light level
+
+#define LDR_PIN 34
+
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  int light = analogRead(LDR_PIN);
+  Serial.println(light);
+  delay(500);
+}
