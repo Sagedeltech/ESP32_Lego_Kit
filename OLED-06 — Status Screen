@@ -1,0 +1,33 @@
+// OLED-06 Status Screen
+// Shows system status
+
+#include <Wire.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+
+#define W 128
+#define H 64
+
+Adafruit_SSD1306 display(W, H, &Wire, -1);
+
+void setup() {
+  display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
+}
+
+void loop() {
+  display.clearDisplay();
+  display.setTextSize(1);
+  display.setTextColor(WHITE);
+
+  display.setCursor(0, 0);
+  display.print("System: OK");
+
+  display.setCursor(0, 16);
+  display.print("WiFi: OFF");
+
+  display.setCursor(0, 32);
+  display.print("Battery: Good");
+
+  display.display();
+  delay(2000);
+}
