@@ -1,0 +1,27 @@
+// OLED-04 Icon + Text Display
+// Combines simple icon and text
+
+#include <Wire.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+
+#define W 128
+#define H 64
+
+Adafruit_SSD1306 display(W, H, &Wire, -1);
+
+void setup() {
+  display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
+  display.clearDisplay();
+
+  display.drawCircle(20, 32, 10, WHITE); // simple icon
+  display.setTextSize(1);
+  display.setTextColor(WHITE);
+  display.setCursor(40, 28);
+  display.print("Status OK");
+
+  display.display();
+}
+
+void loop() {
+}
