@@ -1,0 +1,21 @@
+// I2C-01 BMP180 Temperature
+// Reads temperature from BMP180 sensor
+
+#include <Wire.h>
+#include <Adafruit_BMP085.h>
+
+Adafruit_BMP085 bmp;
+
+void setup() {
+  Serial.begin(9600);
+  Wire.begin();
+  bmp.begin();
+}
+
+void loop() {
+  float temp = bmp.readTemperature();
+  Serial.print("Temperature: ");
+  Serial.print(temp);
+  Serial.println(" C");
+  delay(1000);
+}
