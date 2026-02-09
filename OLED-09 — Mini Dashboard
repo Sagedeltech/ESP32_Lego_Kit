@@ -1,0 +1,32 @@
+// OLED-09 Mini Dashboard
+// Displays compact data
+
+#include <Wire.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+
+#define W 128
+#define H 64
+
+Adafruit_SSD1306 display(W, H, &Wire, -1);
+int value = 0;
+
+void setup() {
+  display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
+}
+
+void loop() {
+  display.clearDisplay();
+  display.setTextSize(1);
+  display.setTextColor(WHITE);
+
+  display.setCursor(0, 0);
+  display.print("Value:");
+  display.print(value++);
+
+  display.setCursor(0, 16);
+  display.print("Status: OK");
+
+  display.display();
+  delay(1000);
+}
