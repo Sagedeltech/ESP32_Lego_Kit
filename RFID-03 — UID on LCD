@@ -1,0 +1,42 @@
+// RFID-03 UID on LCD
+// Displays RFID UID on I2C LCD
+
+#include <SPI.h>
+#include <MFRC522.h>
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+
+#define SS_PIN 5
+#define RST_PIN 22
+
+MFRC522 rfid(SS_PIN, RST_PIN);
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+
+void setup() {
+  Serial.begin(9600);
+  SPI.begin();
+  rfid.PCD_Init();
+
+  lcd.init();
+  lcd.backlight();
+  lcd.print("Scan Card");
+}
+
+void loop() {
+  if (rfid.PICC_IsNewCardPresent() && rfid.PICC_ReadCardSerial()) {
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("UID:");
+
+    lcd.setCursor(0, 1);
+    for (byte i = 0; i < rfid.uid.size; i++) {
+      lcd.print(rfid.uid.uidByte[i], HEX);
+      lcd.print(" ");
+    }
+
+    delay(2000);
+    lcd.clear();
+    lcd.print("Scan Card");
+    rfid.PICC_HaltA();
+  }
+}
