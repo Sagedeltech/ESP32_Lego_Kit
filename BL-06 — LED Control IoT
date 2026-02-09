@@ -1,0 +1,21 @@
+// BL-06 LED Control IoT
+// Controls LED remotely via Bluetooth commands
+
+#include "BluetoothSerial.h"
+
+BluetoothSerial SerialBT;
+#define LED 2
+
+void setup() {
+  pinMode(LED, OUTPUT);
+  SerialBT.begin("ESP32_IoT_LED");
+}
+
+void loop() {
+  if (SerialBT.available()) {
+    char cmd = SerialBT.read();
+
+    if (cmd == '1') digitalWrite(LED, HIGH);
+    if (cmd == '0') digitalWrite(LED, LOW);
+  }
+}
