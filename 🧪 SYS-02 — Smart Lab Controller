@@ -1,0 +1,15 @@
+// SYS-02 Smart Lab Controller
+// Final system project
+
+#define RELAY 25
+#define SENSOR 34
+
+void setup() {
+  pinMode(RELAY, OUTPUT);
+}
+
+void loop() {
+  int val = analogRead(SENSOR);
+  digitalWrite(RELAY, val > 2000);
+  delay(1000);
+}
