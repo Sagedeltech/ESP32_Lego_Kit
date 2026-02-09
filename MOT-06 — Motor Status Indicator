@@ -1,0 +1,22 @@
+// MOT-06 Motor Status Indicator
+// Indicates motor state using LED
+
+#define MOTOR_PIN 26
+#define LED 2
+
+void setup() {
+  pinMode(MOTOR_PIN, OUTPUT);
+  pinMode(LED, OUTPUT);
+}
+
+void loop() {
+  // Motor ON
+  digitalWrite(MOTOR_PIN, HIGH);
+  digitalWrite(LED, HIGH);
+  delay(2000);
+
+  // Motor OFF
+  digitalWrite(MOTOR_PIN, LOW);
+  digitalWrite(LED, LOW);
+  delay(2000);
+}
