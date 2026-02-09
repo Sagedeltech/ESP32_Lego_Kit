@@ -1,0 +1,21 @@
+// I2C-03 BMP180 Altitude
+// Calculates altitude from pressure
+
+#include <Wire.h>
+#include <Adafruit_BMP085.h>
+
+Adafruit_BMP085 bmp;
+
+void setup() {
+  Serial.begin(9600);
+  Wire.begin();
+  bmp.begin();
+}
+
+void loop() {
+  float altitude = bmp.readAltitude();
+  Serial.print("Altitude: ");
+  Serial.print(altitude);
+  Serial.println(" m");
+  delay(1000);
+}
