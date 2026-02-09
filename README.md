@@ -1,3 +1,5 @@
+//////////////////This is sample readme not final//////////////////////////
+
 # ESP32 DOIT DevKit V1 – Modular Learning Kit  
 ### 160 Verified Projects | Beginner → Advanced | Industry-Oriented
 
