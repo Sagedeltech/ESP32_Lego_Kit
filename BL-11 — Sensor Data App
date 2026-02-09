@@ -1,0 +1,18 @@
+// BL-11 Sensor Data App
+// Sends sensor data to Bluetooth app
+
+#include "BluetoothSerial.h"
+
+BluetoothSerial SerialBT;
+#define SENSOR_PIN 34
+
+void setup() {
+  SerialBT.begin("ESP32_SENSOR_BT");
+}
+
+void loop() {
+  int value = analogRead(SENSOR_PIN);
+  SerialBT.print("Sensor:");
+  SerialBT.println(value);
+  delay(1000);
+}
