@@ -1,0 +1,14 @@
+// FSR-01 Flame Detection
+// Detects flame using flame sensor
+
+#define FLAME_PIN 32
+
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  int flame = analogRead(FLAME_PIN);
+  Serial.println(flame);
+  delay(500);
+}
