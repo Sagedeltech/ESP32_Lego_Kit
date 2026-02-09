@@ -1,0 +1,31 @@
+// BL-13 Ultrasonic IoT
+// Sends distance data via Bluetooth
+
+#include "BluetoothSerial.h"
+
+BluetoothSerial SerialBT;
+#define TRIG 5
+#define ECHO 18
+
+void setup() {
+  pinMode(TRIG, OUTPUT);
+  pinMode(ECHO, INPUT);
+  SerialBT.begin("ESP32_ULTRA_BT");
+}
+
+void loop() {
+  digitalWrite(TRIG, LOW);
+  delayMicroseconds(2);
+  digitalWrite(TRIG, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(TRIG, LOW);
+
+  long d = pulseIn(ECHO, HIGH, 30000);
+  float dist = d * 0.034 / 2;
+
+  SerialBT.print("Distance:");
+  SerialBT.print(dist);
+  SerialBT.println("cm");
+
+  delay(1000);
+}
