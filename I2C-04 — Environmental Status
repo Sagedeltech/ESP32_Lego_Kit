@@ -1,0 +1,26 @@
+// I2C-04 Environmental Status
+// Shows environment condition using BMP180
+
+#include <Wire.h>
+#include <Adafruit_BMP085.h>
+
+Adafruit_BMP085 bmp;
+
+void setup() {
+  Serial.begin(9600);
+  Wire.begin();
+  bmp.begin();
+}
+
+void loop() {
+  float temp = bmp.readTemperature();
+  long pressure = bmp.readPressure();
+
+  if (temp > 30 || pressure < 100000) {
+    Serial.println("Environment: WARNING");
+  } else {
+    Serial.println("Environment: NORMAL");
+  }
+
+  delay(1500);
+}
