@@ -1,0 +1,24 @@
+// LCD-09 LCD + Buzzer Alert
+// Displays text with sound alert
+
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+
+#define BUZZER 18
+
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+
+void setup() {
+  pinMode(BUZZER, OUTPUT);
+  lcd.init();
+  lcd.backlight();
+}
+
+void loop() {
+  lcd.clear();
+  lcd.print("ALERT!");
+  digitalWrite(BUZZER, HIGH);
+  delay(300);
+  digitalWrite(BUZZER, LOW);
+  delay(2000);
+}
