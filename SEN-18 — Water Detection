@@ -1,0 +1,14 @@
+// SEN-18 Water Detection
+// Detects presence of water
+
+#define WATER_PIN 33
+
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  int value = analogRead(WATER_PIN);
+  Serial.println(value);
+  delay(500);
+}
