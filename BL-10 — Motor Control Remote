@@ -1,0 +1,20 @@
+// BL-10 Motor Control Remote
+// Controls motor ON/OFF via Bluetooth
+
+#include "BluetoothSerial.h"
+
+BluetoothSerial SerialBT;
+#define MOTOR 26
+
+void setup() {
+  pinMode(MOTOR, OUTPUT);
+  SerialBT.begin("ESP32_MOTOR_BT");
+}
+
+void loop() {
+  if (SerialBT.available()) {
+    char cmd = SerialBT.read();
+    if (cmd == '1') digitalWrite(MOTOR, HIGH);
+    if (cmd == '0') digitalWrite(MOTOR, LOW);
+  }
+}
