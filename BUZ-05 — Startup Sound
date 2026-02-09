@@ -1,0 +1,20 @@
+// BUZ-05 Startup Sound
+// Plays sound when system starts
+
+#define BUZZER 18
+
+void setup() {
+  pinMode(BUZZER, OUTPUT);
+
+  digitalWrite(BUZZER, HIGH);
+  delay(100);
+  digitalWrite(BUZZER, LOW);
+  delay(100);
+
+  digitalWrite(BUZZER, HIGH);
+  delay(300);
+  digitalWrite(BUZZER, LOW);
+}
+
+void loop() {
+}
