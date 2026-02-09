@@ -1,0 +1,29 @@
+// BL-12 DHT11 Monitor IoT
+// Sends temperature & humidity via Bluetooth
+
+#include "BluetoothSerial.h"
+#include <DHT.h>
+
+#define DHTPIN 27
+#define DHTTYPE DHT11
+
+BluetoothSerial SerialBT;
+DHT dht(DHTPIN, DHTTYPE);
+
+void setup() {
+  SerialBT.begin("ESP32_DHT11_BT");
+  dht.begin();
+}
+
+void loop() {
+  float t = dht.readTemperature();
+  float h = dht.readHumidity();
+
+  SerialBT.print("Temp:");
+  SerialBT.print(t);
+  SerialBT.print("C  Hum:");
+  SerialBT.print(h);
+  SerialBT.println("%");
+
+  delay(2000);
+}
