@@ -1,0 +1,16 @@
+// REL-07 Smart Switch Simulation
+// Simulates smart home relay switching
+
+#define RELAY_PIN 25
+
+void setup() {
+  pinMode(RELAY_PIN, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(RELAY_PIN, HIGH); // Appliance ON
+  delay(3000);
+
+  digitalWrite(RELAY_PIN, LOW);  // Appliance OFF
+  delay(3000);
+}
