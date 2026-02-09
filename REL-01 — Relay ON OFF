@@ -1,0 +1,15 @@
+// REL-01 Relay ON/OFF
+// Switches relay
+
+#define RELAY_PIN 25
+
+void setup() {
+  pinMode(RELAY_PIN, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(RELAY_PIN, HIGH); // Relay ON
+  delay(2000);
+  digitalWrite(RELAY_PIN, LOW);  // Relay OFF
+  delay(2000);
+}
