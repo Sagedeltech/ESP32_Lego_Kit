@@ -1,0 +1,18 @@
+// SEN-03 Touch System Trigger
+// Triggers system action
+
+#define TOUCH_PIN 4
+#define BUZZER 18
+
+void setup() {
+  pinMode(BUZZER, OUTPUT);
+}
+
+void loop() {
+  if (touchRead(TOUCH_PIN) < 40) {
+    digitalWrite(BUZZER, HIGH);
+    delay(300);
+    digitalWrite(BUZZER, LOW);
+    delay(1000);
+  }
+}
