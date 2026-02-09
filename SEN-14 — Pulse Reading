@@ -1,0 +1,14 @@
+// SEN-14 Pulse Reading
+// Reads raw pulse sensor signal
+
+#define PULSE_PIN 36
+
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  int pulse = analogRead(PULSE_PIN);
+  Serial.println(pulse);
+  delay(20);
+}
