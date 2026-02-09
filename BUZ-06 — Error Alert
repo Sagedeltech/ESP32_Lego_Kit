@@ -1,0 +1,19 @@
+// BUZ-06 Error Alert
+// Alerts on error condition (fast beeps)
+
+#define BUZZER 18
+
+void setup() {
+  pinMode(BUZZER, OUTPUT);
+}
+
+void loop() {
+  // Error pattern
+  for (int i = 0; i < 5; i++) {
+    digitalWrite(BUZZER, HIGH);
+    delay(100);
+    digitalWrite(BUZZER, LOW);
+    delay(100);
+  }
+  delay(1500);
+}
