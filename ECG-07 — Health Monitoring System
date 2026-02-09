@@ -1,0 +1,21 @@
+// ECG-07 Health Monitoring System
+// Complete ECG monitoring with simple status
+
+#define ECG_PIN 36
+#define THRESHOLD 2000
+
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  int ecg = analogRead(ECG_PIN);
+
+  if (ecg > THRESHOLD) {
+    Serial.println("Status: HEART ACTIVITY");
+  } else {
+    Serial.println("Status: NORMAL");
+  }
+
+  delay(200);
+}
