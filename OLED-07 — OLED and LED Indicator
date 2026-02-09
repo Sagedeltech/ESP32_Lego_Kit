@@ -1,0 +1,37 @@
+// OLED-07 OLED + LED Indicator
+// OLED message with LED feedback
+
+#include <Wire.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+
+#define LED 2
+#define W 128
+#define H 64
+
+Adafruit_SSD1306 display(W, H, &Wire, -1);
+
+void setup() {
+  pinMode(LED, OUTPUT);
+  display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
+}
+
+void loop() {
+  display.clearDisplay();
+  display.setTextSize(1);
+  display.setTextColor(WHITE);
+  display.setCursor(0, 20);
+  display.print("LED ON");
+  display.display();
+
+  digitalWrite(LED, HIGH);
+  delay(1500);
+
+  display.clearDisplay();
+  display.setCursor(0, 20);
+  display.print("LED OFF");
+  display.display();
+
+  digitalWrite(LED, LOW);
+  delay(1500);
+}
