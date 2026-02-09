@@ -1,0 +1,21 @@
+// AQ-04 LED Status
+// Shows air quality using LED
+
+#define AQ_PIN 34
+#define LED 2
+
+void setup() {
+  pinMode(LED, OUTPUT);
+}
+
+void loop() {
+  int value = analogRead(AQ_PIN);
+
+  if (value > 2500) {
+    digitalWrite(LED, HIGH); // Poor AQI
+  } else {
+    digitalWrite(LED, LOW);  // Good AQI
+  }
+
+  delay(1000);
+}
