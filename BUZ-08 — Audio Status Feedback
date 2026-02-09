@@ -1,0 +1,17 @@
+// BUZ-08 Audio Status Feedback
+// Uses sound for system status
+
+#define BUZZER 18
+
+void setup() {
+  pinMode(BUZZER, OUTPUT);
+}
+
+void loop() {
+  // System active
+  digitalWrite(BUZZER, HIGH);
+  delay(200);
+  digitalWrite(BUZZER, LOW);
+
+  delay(2000);
+}
