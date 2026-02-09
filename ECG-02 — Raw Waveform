@@ -1,0 +1,14 @@
+// ECG-02 Raw Waveform
+// Outputs raw ECG waveform data
+
+#define ECG_PIN 36
+
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  int value = analogRead(ECG_PIN);
+  Serial.println(value);
+  delay(2);
+}
