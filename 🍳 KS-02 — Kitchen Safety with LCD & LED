@@ -1,0 +1,37 @@
+// KS-02 Kitchen Safety with LCD & LED
+
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+
+#define FLAME_PIN 32
+#define GAS_PIN   34
+#define BUZZER    18
+#define ALERT_LED 2
+
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+
+void setup() {
+  pinMode(BUZZER, OUTPUT);
+  pinMode(ALERT_LED, OUTPUT);
+  lcd.init();
+  lcd.backlight();
+}
+
+void loop() {
+  int flame = analogRead(FLAME_PIN);
+  int gas   = analogRead(GAS_PIN);
+
+  lcd.clear();
+
+  if (flame < 2000 || gas > 2500) {
+    lcd.print("KITCHEN ALERT!");
+    digitalWrite(BUZZER, HIGH);
+    digitalWrite(ALERT_LED, HIGH);
+  } else {
+    lcd.print("Kitchen Safe");
+    digitalWrite(BUZZER, LOW);
+    digitalWrite(ALERT_LED, LOW);
+  }
+
+  delay(1000);
+}
