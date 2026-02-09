@@ -1,0 +1,25 @@
+// LCD-10 LCD Dashboard
+// Displays multiple parameters
+
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+int value = 0;
+
+void setup() {
+  lcd.init();
+  lcd.backlight();
+}
+
+void loop() {
+  lcd.setCursor(0, 0);
+  lcd.print("Val:");
+  lcd.print(value);
+
+  lcd.setCursor(0, 1);
+  lcd.print("Status: OK ");
+
+  value++;
+  delay(1000);
+}
