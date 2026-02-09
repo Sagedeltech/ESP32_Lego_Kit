@@ -1,0 +1,14 @@
+// FSR-04 Rain Detection
+// Detects rain using rain sensor
+
+#define RAIN_PIN 34
+
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  int rain = analogRead(RAIN_PIN);
+  Serial.println(rain);
+  delay(500);
+}
