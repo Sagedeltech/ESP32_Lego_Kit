@@ -1,0 +1,18 @@
+// BL-15 Air Quality IoT
+// Sends air quality data via Bluetooth
+
+#include "BluetoothSerial.h"
+
+BluetoothSerial SerialBT;
+#define AQ_PIN 34
+
+void setup() {
+  SerialBT.begin("ESP32_AQI_BT");
+}
+
+void loop() {
+  int aqi = analogRead(AQ_PIN);
+  SerialBT.print("AQI:");
+  SerialBT.println(aqi);
+  delay(1500);
+}
