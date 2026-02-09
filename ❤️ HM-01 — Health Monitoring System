@@ -1,0 +1,189 @@
+// HM-01 Health Monitoring System
+// Sensors: Pulse Sensor, DHT11, MLX90614
+// Features: Adaptive BPM detection, IR temperature
+// Display: 16x4 I2C LCD
+
+#include <Wire.h>
+#include <hd44780.h>
+#include <hd44780ioClass/hd44780_I2Cexp.h>
+#include <DHT.h>
+#include <Adafruit_MLX90614.h>
+
+// -------------------- LCD --------------------
+hd44780_I2Cexp lcd;
+
+// -------------------- DHT11 --------------------
+#define DHTPIN 6
+#define DHTTYPE DHT11
+DHT dht(DHTPIN, DHTTYPE);
+
+// -------------------- MLX90614 --------------------
+Adafruit_MLX90614 mlx = Adafruit_MLX90614();
+
+// -------------------- Pulse Sensor --------------------
+#define HRPIN A0
+const int smoothSize = 10;
+int smoothArr[smoothSize] = {0};
+int smoothIndex = 0;
+
+int lastState = LOW;
+unsigned long lastBeat = 0;
+const unsigned long MIN_INTERVAL = 300; // ms between beats
+
+// Adaptive threshold tuning
+float recentMax = 512;
+float recentMin = 512;
+float threshold = 460;
+
+// Rolling average BPM
+const int bpmWindow = 5;
+int bpmArr[bpmWindow] = {0};
+int bpmIndex = 0;
+int heartRate = 0;
+
+// -------------------- Timing --------------------
+unsigned long previousSensorMillis = 0;
+const unsigned long SENSOR_INTERVAL = 3000;
+
+float tempDHT = 0;
+float hum = 0;
+float tempIRC = 0;
+float tempIRF = 0;
+
+bool hrReady = false;
+unsigned long hrStartTime = 0;
+const unsigned long HR_WAIT = 10000; // 10 sec stabilization
+
+// -------------------- Setup --------------------
+void setup() {
+  lcd.begin(16,4);
+  lcd.backlight();
+  dht.begin();
+
+  if (!mlx.begin()) {
+    lcd.setCursor(0,0);
+    lcd.print("MLX90614 Error!");
+    while(1);
+  }
+
+  // Intro screen with bar animation
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("Place finger on");
+  lcd.setCursor(0,1);
+  lcd.print("Pulse Sensor...");
+  lcd.setCursor(0,2);
+  lcd.print("Reading signal");
+  lcd.setCursor(0,3);
+  lcd.print("........");
+
+  hrStartTime = millis();
+  Serial.begin(9600);
+}
+
+// -------------------- Helpers --------------------
+int getSmoothedSignal(int val){
+  smoothArr[smoothIndex] = val;
+  smoothIndex = (smoothIndex + 1) % smoothSize;
+  int sum = 0;
+  for(int i=0;i<smoothSize;i++) sum += smoothArr[i];
+  return sum / smoothSize;
+}
+
+int getAverageBPM(int newBPM){
+  bpmArr[bpmIndex] = newBPM;
+  bpmIndex = (bpmIndex + 1) % bpmWindow;
+  int sum = 0, count = 0;
+  for(int i=0;i<bpmWindow;i++){
+    if(bpmArr[i]>0){ sum += bpmArr[i]; count++; }
+  }
+  if(count==0) return 0;
+  return sum / count;
+}
+
+// -------------------- Main Loop --------------------
+void loop() {
+  unsigned long currentMillis = millis();
+
+  int rawSignal = analogRead(HRPIN);
+  int signal = getSmoothedSignal(rawSignal);
+  Serial.println(signal);
+
+  // -------------------- Bar animation during start --------------------
+  if(!hrReady){
+    int barLength = map(signal, 300, 600, 0, 16);
+    barLength = constrain(barLength, 0, 16);
+
+    lcd.setCursor(0,3);
+    for(int i=0;i<16;i++){
+      if(i<barLength) lcd.print("|");
+      else lcd.print(" ");
+    }
+
+    if(currentMillis - hrStartTime >= HR_WAIT){
+      hrReady = true;
+      lcd.clear();
+    } else return;
+  }
+
+  // -------------------- Adaptive threshold with decay --------------------
+  recentMax = (recentMax * 0.98) + (signal * 0.02);
+  recentMin = (recentMin * 0.98) + (signal * 0.02);
+  threshold = (recentMax + recentMin) / 2;
+
+  // -------------------- Detect Beats --------------------
+  int state = (signal > threshold) ? HIGH : LOW;
+  if(state == HIGH && lastState == LOW){
+    unsigned long now = millis();
+    if((now - lastBeat) > MIN_INTERVAL){
+      if(lastBeat > 0){
+        unsigned long interval = now - lastBeat;
+        int bpm = 60000 / interval;
+        if(bpm >= 45 && bpm <= 150){
+          heartRate = getAverageBPM(bpm);
+        }
+      }
+      lastBeat = now;
+    }
+  }
+  lastState = state;
+
+  // -------------------- Read DHT11 + MLX90614 --------------------
+  if(currentMillis - previousSensorMillis >= SENSOR_INTERVAL){
+    previousSensorMillis = currentMillis;
+
+    float t = dht.readTemperature();
+    float h = dht.readHumidity();
+    if(!isnan(t)) tempDHT = t;
+    if(!isnan(h)) hum = h;
+
+    tempIRC = mlx.readObjectTempC();
+    tempIRF = mlx.readObjectTempF();
+  }
+
+  // -------------------- LCD Display --------------------
+  lcd.setCursor(0,0);
+  lcd.print("Temp: ");
+  lcd.print(tempDHT,1);
+  lcd.print("C   ");
+
+  lcd.setCursor(0,1);
+  lcd.print("Hum: ");
+  lcd.print(hum,1);
+  lcd.print("%   ");
+
+  lcd.setCursor(0,2);
+  lcd.print("IR: ");
+  lcd.print(tempIRC,1);
+  lcd.print("C/");
+  lcd.print(tempIRF,1);
+  lcd.print("F ");
+
+  lcd.setCursor(0,3);
+  lcd.print("HR: ");
+  if(heartRate>0) lcd.print(heartRate);
+  else lcd.print("--");
+  lcd.print(" BPM  ");
+
+  delay(5);
+}
