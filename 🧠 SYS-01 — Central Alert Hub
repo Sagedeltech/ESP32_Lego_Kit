@@ -1,0 +1,19 @@
+// SYS-01 Central Alert Hub
+// Combines multiple alert inputs
+
+#define ALERT1 32
+#define ALERT2 34
+#define BUZZER 18
+
+void setup() {
+  pinMode(BUZZER, OUTPUT);
+}
+
+void loop() {
+  if (analogRead(ALERT1) > 2000 || analogRead(ALERT2) > 2000) {
+    digitalWrite(BUZZER, HIGH);
+  } else {
+    digitalWrite(BUZZER, LOW);
+  }
+  delay(500);
+}
