@@ -1,0 +1,42 @@
+// RFID-04 Access Control
+// Grants or denies access based on UID
+
+#include <SPI.h>
+#include <MFRC522.h>
+
+#define SS_PIN 5
+#define RST_PIN 22
+#define LED 2
+
+MFRC522 rfid(SS_PIN, RST_PIN);
+byte allowedUID[4] = {0xDE, 0xAD, 0xBE, 0xEF};
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(LED, OUTPUT);
+  SPI.begin();
+  rfid.PCD_Init();
+}
+
+void loop() {
+  if (rfid.PICC_IsNewCardPresent() && rfid.PICC_ReadCardSerial()) {
+    bool access = true;
+
+    for (byte i = 0; i < 4; i++) {
+      if (rfid.uid.uidByte[i] != allowedUID[i]) {
+        access = false;
+      }
+    }
+
+    if (access) {
+      Serial.println("Access Granted");
+      digitalWrite(LED, HIGH);
+    } else {
+      Serial.println("Access Denied");
+      digitalWrite(LED, LOW);
+    }
+
+    delay(2000);
+    rfid.PICC_HaltA();
+  }
+}
