@@ -1,0 +1,20 @@
+// SEN-07 Temperature Display
+// Reads temperature from analog sensor (LM35-type)
+
+#define TEMP_PIN 35
+
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  int raw = analogRead(TEMP_PIN);
+  float voltage = raw * (3.3 / 4095.0);
+  float temperature = voltage * 100.0; // LM35
+
+  Serial.print("Temp: ");
+  Serial.print(temperature);
+  Serial.println(" C");
+
+  delay(1000);
+}
