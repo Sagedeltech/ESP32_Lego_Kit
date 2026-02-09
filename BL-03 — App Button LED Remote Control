@@ -1,0 +1,25 @@
+// BL-03 App Button LED Remote Control
+// Controls LED via Bluetooth app button
+
+#include "BluetoothSerial.h"
+
+BluetoothSerial SerialBT;
+#define LED 2
+
+void setup() {
+  pinMode(LED, OUTPUT);
+  Serial.begin(9600);
+  SerialBT.begin("ESP32_LED_BT");
+}
+
+void loop() {
+  if (SerialBT.available()) {
+    char cmd = SerialBT.read();
+
+    if (cmd == 'A') {        // Button A
+      digitalWrite(LED, HIGH);
+    } else if (cmd == 'B') { // Button B
+      digitalWrite(LED, LOW);
+    }
+  }
+}
