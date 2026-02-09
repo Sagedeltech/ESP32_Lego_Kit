@@ -1,0 +1,24 @@
+// BL-08 Buzzer Alert IoT
+// Triggers buzzer remotely via Bluetooth
+
+#include "BluetoothSerial.h"
+
+BluetoothSerial SerialBT;
+#define BUZZER 18
+
+void setup() {
+  pinMode(BUZZER, OUTPUT);
+  SerialBT.begin("ESP32_BUZZER_BT");
+}
+
+void loop() {
+  if (SerialBT.available()) {
+    char cmd = SerialBT.read();
+
+    if (cmd == '1') {
+      digitalWrite(BUZZER, HIGH);
+    } else if (cmd == '0') {
+      digitalWrite(BUZZER, LOW);
+    }
+  }
+}
