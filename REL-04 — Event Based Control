@@ -1,0 +1,18 @@
+// REL-04 Event-Based Control
+// Relay turns ON based on button event
+
+#define RELAY_PIN 25
+#define BUTTON_PIN 27
+
+void setup() {
+  pinMode(RELAY_PIN, OUTPUT);
+  pinMode(BUTTON_PIN, INPUT_PULLUP);
+}
+
+void loop() {
+  if (digitalRead(BUTTON_PIN) == LOW) {
+    digitalWrite(RELAY_PIN, HIGH);
+  } else {
+    digitalWrite(RELAY_PIN, LOW);
+  }
+}
