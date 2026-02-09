@@ -1,0 +1,21 @@
+// I2C-02 BMP180 Pressure
+// Reads pressure from BMP180 sensor
+
+#include <Wire.h>
+#include <Adafruit_BMP085.h>
+
+Adafruit_BMP085 bmp;
+
+void setup() {
+  Serial.begin(9600);
+  Wire.begin();
+  bmp.begin();
+}
+
+void loop() {
+  long pressure = bmp.readPressure();
+  Serial.print("Pressure: ");
+  Serial.print(pressure);
+  Serial.println(" Pa");
+  delay(1000);
+}
