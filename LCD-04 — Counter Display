@@ -1,0 +1,22 @@
+// LCD-04 Counter Display
+// Displays increasing counter
+
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+int count = 0;
+
+void setup() {
+  lcd.init();
+  lcd.backlight();
+}
+
+void loop() {
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Count:");
+  lcd.setCursor(7, 0);
+  lcd.print(count++);
+  delay(1000);
+}
