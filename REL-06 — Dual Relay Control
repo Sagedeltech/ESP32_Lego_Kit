@@ -1,0 +1,20 @@
+// REL-06 Dual Relay Control
+// Controls two relays independently
+
+#define RELAY1 25
+#define RELAY2 26
+
+void setup() {
+  pinMode(RELAY1, OUTPUT);
+  pinMode(RELAY2, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(RELAY1, HIGH);
+  delay(2000);
+  digitalWrite(RELAY1, LOW);
+
+  digitalWrite(RELAY2, HIGH);
+  delay(2000);
+  digitalWrite(RELAY2, LOW);
+}
