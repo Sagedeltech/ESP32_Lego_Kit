@@ -1,0 +1,20 @@
+// SEN-13 Proximity Alert
+// Alerts when object is close
+
+#define IR_PIN 26
+#define BUZZER 18
+
+void setup() {
+  pinMode(IR_PIN, INPUT);
+  pinMode(BUZZER, OUTPUT);
+}
+
+void loop() {
+  if (digitalRead(IR_PIN) == LOW) {
+    digitalWrite(BUZZER, HIGH);
+    delay(200);
+    digitalWrite(BUZZER, LOW);
+  }
+
+  delay(500);
+}
