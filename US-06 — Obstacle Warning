@@ -1,0 +1,31 @@
+// US-06 Obstacle Warning
+// Warns when obstacle is very close
+
+#define TRIG 5
+#define ECHO 18
+#define BUZZER 19
+
+void setup() {
+  pinMode(TRIG, OUTPUT);
+  pinMode(ECHO, INPUT);
+  pinMode(BUZZER, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(TRIG, LOW);
+  delayMicroseconds(2);
+  digitalWrite(TRIG, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(TRIG, LOW);
+
+  long duration = pulseIn(ECHO, HIGH, 30000); // timeout safety
+  float distance = duration * 0.034 / 2;
+
+  if (distance > 0 && distance < 10) {
+    digitalWrite(BUZZER, HIGH);
+  } else {
+    digitalWrite(BUZZER, LOW);
+  }
+
+  delay(300);
+}
