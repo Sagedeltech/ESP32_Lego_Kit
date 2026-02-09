@@ -1,0 +1,21 @@
+// SEN-06 Light Threshold Alert
+// Alerts when light crosses limit
+
+#define LDR_PIN 34
+#define BUZZER 18
+
+void setup() {
+  pinMode(BUZZER, OUTPUT);
+}
+
+void loop() {
+  int light = analogRead(LDR_PIN);
+
+  if (light < 1500) {
+    digitalWrite(BUZZER, HIGH);
+  } else {
+    digitalWrite(BUZZER, LOW);
+  }
+
+  delay(500);
+}
